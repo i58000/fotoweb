@@ -42,4 +42,9 @@ router.get('/index', async function (ctx, next) {
   await ctx.render('index');
 });
 
+router.get('signout', async function (ctx, next) {
+  ctx.session = null;
+  ctx.redirect('/');
+});
+
 module.exports = router;
