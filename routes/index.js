@@ -1,5 +1,14 @@
+'use strict';
 var router = require('koa-router')();
-var db = require('../tools/database');
+const account = require('../tools/account');
+
+router.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.throw(err)
+  }
+});
 
 router.get('/', async function (ctx, next) {
   if (ctx.session.isNew) {
@@ -8,32 +17,21 @@ router.get('/', async function (ctx, next) {
   else {
     await ctx.redirect('index');
   }
-});
-router.post('/', async (ctx, next) => {
-  let form = ctx.request.body;
-  form.password = require('md5')(form.password);
-  if ((await db.signin(form)).length) {
-    ctx.session.username = form.username;
-    console.log('signin successful!');
-    await ctx.redirect('index')
-  }
-  else {
-    console.log('password or username incorrect!');
-    await ctx.render('error', form);
-  }
-});
+})
+  .post('/', account.login)
+  .get('/signup', async (ctx, next) => {
+    await ctx.render('signup');
+  })
+  .get('/delete', account.deluser);
 
-router.get('/signup', async (ctx, next) => {
-  await ctx.render('signup');
-});
-router.post('/signup', async (ctx, next) => {
-  var form = ctx.request.body;
-  form.password = require('md5')(form.password);
-  await db.signup(form);
-  ctx.session.username = form.username;
-  console.log('signup successful!');
-  ctx.redirect('index');
-});
+// router.post('/signup', async (ctx, next) => {
+//   var form = ctx.request.body;
+//   form.password = require('md5')(form.password);
+//   await db.signup(form);
+//   ctx.session.username = form.username;
+//   console.log('signup successful!');
+//   ctx.redirect('index');
+// });
 
 router.get('/index', async function (ctx, next) {
   if (ctx.session.isNew) {
@@ -45,6 +43,15 @@ router.get('/index', async function (ctx, next) {
 router.get('/signout', async function (ctx, next) {
   ctx.session = null;
   ctx.redirect('/');
+});
+
+router.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    console.log(err);
+    await ctx.render('error');
+  }
 });
 
 module.exports = router;
