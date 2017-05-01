@@ -9,6 +9,7 @@ const account = new mongoose.Schema({
         name: String,
         idNum: {
             type: Number,
+            set: (v) => +v,
             unique: true
         }
     },

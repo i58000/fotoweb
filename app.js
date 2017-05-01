@@ -7,7 +7,7 @@ const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 
 const index = require('./routes/index');
-const users = require('./routes/users');
+const account = require('./routes/account');
 
 const cors = require('koa-cors');
 
@@ -46,8 +46,18 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
+// db or other errors
+app.use(async (ctx, next) => {
+  try {
+    await next();
+  } catch (err) {
+    ctx.throw(err);
+  }
+});
+
 // routes
 app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(account.routes(), account.allowedMethods());
+
 
 module.exports = app;

@@ -21,6 +21,7 @@ class AccountController {
         if (res !== null) {
             ctx.cookies.set('username', res.username);
             ctx.cookies.set('role', res.role);
+            ctx.session.idNum = res.username.idNum;
             ctx.session.role = res.role;
             await ctx.redirect('index');
         }
@@ -28,15 +29,24 @@ class AccountController {
         await ctx.render('error');
     }
     static async logout(ctx, next) {
-
+        ctx.session = null;
+        ctx.redirect('/');
     }
     static async deluser(ctx, next) {
         if (ctx.session.role !== 'admin') {
-            ctx.throw("Admin Only!")
+            ctx.throw("Admin Only!");
         }
+        account.findByIdAndRemove(ctx.request.body._id);
+        ctx.response.body = "OK";
     }
     static async resetpwd(ctx, next) {
-
+        let res = await account.findById(ctx.response.body._id);
+        if (res.username.idNum !== ctx.session.idNum || ctx.session.role !== 'admin') {
+            ctx.throw('permission denied!');
+        }
+        res.password = ctx.response.body.password;
+        res.save();
+        ctx.response.body = "OK";
     }
     
 };
