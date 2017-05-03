@@ -27,14 +27,24 @@ const account = new mongoose.Schema({
 
 const course = new mongoose.Schema({
     name: String,
-    teacher: ObjectId,
-    student: [ObjectId],
-    homework: [ObjectId],
+    teacher: {
+        name: String,
+        id: ObjectId
+    },
+    student: [{
+        name: String,
+        id: ObjectId
+    }],
+    homework: [{
+        name: String,
+        id: ObjectId
+    }],
     // date, description, etc. anything you want
     etc: mongoose.Schema.Types.Mixed
 });
 
 const homework = new mongoose.Schema({
+    name: String,
     course: {
         type: ObjectId,
         required: [true, 'no course assigned!']
@@ -49,7 +59,8 @@ const discussion = new mongoose.Schema({
         required: [true, 'no course assigned!']
     },
     history: [{
-        name: ObjectId,
+        name: String,
+        id: ObjectId,
         date: Date,
         content: String
     }]
