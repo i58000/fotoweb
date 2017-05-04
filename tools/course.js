@@ -5,6 +5,9 @@ const homework = db.homework;
 const discussion = db.discussion;
 
 class CourseController {
+    static async getCourse(ctx, next) {
+        
+    }
     static async addCourse(ctx, next) {
     }
 

@@ -5,6 +5,9 @@ const homework = db.homework;
 const discussion = db.discussion;
 
 class DiscussionController {
+    static async get(ctx, next) {
+    }
+    
     static async add(ctx, next) {
     }
 
