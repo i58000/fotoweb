@@ -57,6 +57,17 @@ app.use(async (ctx, next) => {
 
 // routes
 app.use(index.routes(), index.allowedMethods());
+
+// apis
+app.use(async (ctx, next) => {
+  if (ctx.session.isNew) {
+    ctx.throw(403, 'you have to login first!');
+  }
+  else {
+    await next();
+  }
+});
+
 app.use(account.routes(), account.allowedMethods());
 
 
