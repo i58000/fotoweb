@@ -5,6 +5,12 @@ Course project: a teaching management system
 * 后端: koa2
 * 数据库：MongoDB, Mongoose
 
+## 数据库备份与恢复
+* 启动数据库 `./tools/databse.bat`
+* 清空所有数据 `./tools/clean.bat`
+* 备份数据库 `./tools/dump.bat`
+* 数据库恢复 `./tools/restore.bat`
+
 ## 安装 & 启动
 requires __node v7.6.0__ or higher for ES2015 and async function support.
 ```
