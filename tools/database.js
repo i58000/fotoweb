@@ -1,6 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const schema = require('./schema');
+mongoose.Promise = Promise
 
 mongoose.connect('mongodb://localhost/swe2017', {
     config: { autoIndex: false }

@@ -5,7 +5,9 @@ router.prefix('/homework');
 const homework = require('../tools/homework');
 
 router.get('/:id', homework.get)
+    // params: name: String, courseId: ObjectId, duedate(optional): Date
     .post('/', homework.add)
+    // params: duedate: Date
     .put('/:id', homework.changeDue)
     .del('/:id', homework.del);
 

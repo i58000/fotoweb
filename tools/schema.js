@@ -19,7 +19,8 @@ const account = new mongoose.Schema({
     },
     role: {
         type: String,
-        default: 'student',
+        set: (v) => v ? v : 'student',
+        // default: 'student',
         enum: ['admin', 'teacher', 'student']
     },
     courseId: [ObjectId],
@@ -33,7 +34,10 @@ const course = new mongoose.Schema({
     },
     student: [{
         name: String,
-        id: ObjectId
+        id: {
+            type: ObjectId,
+            unique: true
+        }
     }],
     homework: [{
         name: String,
@@ -49,7 +53,10 @@ const homework = new mongoose.Schema({
         type: ObjectId,
         required: [true, 'no course assigned!']
     },
-    duedate: Date,
+    duedate: {
+        type: Date,
+        set: date => date ? date : new Date()
+    },
     student: [ObjectId]
 });
 
@@ -61,7 +68,10 @@ const discussion = new mongoose.Schema({
     history: [{
         name: String,
         id: ObjectId,
-        date: Date,
+        date: {
+            type: Date,
+            default: new Date()
+        },
         content: String
     }]
 });

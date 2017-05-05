@@ -3,11 +3,18 @@ const account = require('../tools/account');
     
 router.prefix('/account');
 
+/* params
+    name: String,
+    idNum: Number,
+    password: String
+    role(optional): ['admin', 'teacher', 'student']
+*/
 router.post('/register', account.register);
 
-router.post('/resetpwd', account.resetpwd);
+// params: password: String
+router.put('/passwd/:id', account.resetpwd);
 
-router.del('/deluser', account.deluser);
+router.del('/:id', account.deluser);
 
 // router.redirect('/', '/');
 

@@ -5,8 +5,14 @@ router.prefix('/course');
 const course = require('../tools/course');
 
 router.get('/:id', course.getCourse)
+    /* params
+        name: String
+        teacher(name): String, id(teacher's): ObjectId
+    */
     .post('/', course.addCourse)
-    .post('/:id/stu', course.addStu)
+    // params: stus: [{name: String, id: ObjectId}]
+    .put('/:id/stu', course.addStu)
+    // not implemented yet
     .del('/:id/stu', course.delStd);
 
 

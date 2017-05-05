@@ -7,7 +7,12 @@ const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 
 const index = require('./routes/index');
+
+// api
 const account = require('./routes/account');
+const course = require('./routes/course');
+const discussion = require('./routes/discussion');
+const homework = require('./routes/homework');
 
 const cors = require('koa-cors');
 
@@ -58,7 +63,6 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 
-// apis
 app.use(async (ctx, next) => {
   if (ctx.session.isNew) {
     ctx.throw(403, 'you have to login first!');
@@ -68,7 +72,10 @@ app.use(async (ctx, next) => {
   }
 });
 
+// apis
 app.use(account.routes(), account.allowedMethods());
-
+app.use(course.routes(), course.allowedMethods());
+app.use(discussion.routes(), discussion.allowedMethods());
+app.use(homework.routes(), homework.allowedMethods());
 
 module.exports = app;
