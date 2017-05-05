@@ -1,0 +1,1 @@
+mongodump -d swe2017 -o ./dump

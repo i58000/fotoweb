@@ -23,7 +23,7 @@ class HomeworkController {
             id: hw._id
         });
         await cour.save();
-        return ctx.body = course.homework;
+        return ctx.body = cour.homework;
     }
 
     static async del(ctx, next) {
