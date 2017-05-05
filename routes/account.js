@@ -3,6 +3,7 @@ const account = require('../tools/account');
     
 router.prefix('/account');
 
+router.get('/:id', )
 /* params
     name: String,
     idNum: Number,

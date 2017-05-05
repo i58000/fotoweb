@@ -3,6 +3,10 @@ const account = require('./database')['account'];
 const md5 = require('md5');
 
 class AccountController {
+    static async getAccountInfo(ctx, next) {
+        return ctx.body = await account.findById(ctx.params.id);
+    }
+
     static async register(ctx, next) {
         let form = ctx.request.body;
         // console.log(form);
@@ -45,7 +49,7 @@ class AccountController {
         //     ctx.throw("Admin Only!");
         // }
         await account.findByIdAndRemove(ctx.params.id);
-        ctx.response.body = "OK";
+        ctx.body = "OK";
     }
     static async resetpwd(ctx, next) {
         let res = await account.findById(ctx.params.id);
@@ -54,7 +58,7 @@ class AccountController {
         }
         res.password = ctx.request.body.password;
         await res.save();
-        return ctx.response.body = "OK";
+        return ctx.body = "OK";
     }
 };
 
