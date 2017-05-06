@@ -25,7 +25,8 @@ curl -X POST --data 'name=swe&teacher=bingzhang&id=590ca82ef3e144355c71400f' htt
 curl -X PUT --data 'stus=[{"name":"david","id":"590ca83bf3e144355c714010"}]' http://localhost:2333/course/590ca866f3e144355c714011/stu
 # get course info
 curl -X GET http://localhost:2333/course/590ca866f3e144355c714011
-
+# all in one
+cour -X GET http://localhost:2333/course/allInOne/590ca866f3e144355c714011
 
 
 ## homework.js

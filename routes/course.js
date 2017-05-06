@@ -15,7 +15,7 @@ router.get('/:id', course.getCourse)
     // not implemented yet
     .del('/:id/stu', course.delStd);
 
-
+router.get('/allInOne/:id', course.allInOne);
 
 
 // router.redirect('/', '/');

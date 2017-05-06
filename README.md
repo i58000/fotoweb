@@ -6,7 +6,7 @@ Course project: a teaching management system
 * 数据库：MongoDB, Mongoose
 
 ## 数据库备份与恢复
-* 启动数据库 `./tools/databse.bat`
+* 启动数据库 `./tools/database.bat`
 * 清空所有数据 `./tools/clean.bat`
 * 备份数据库 `./tools/dump.bat`
 * 数据库恢复 `./tools/restore.bat`
