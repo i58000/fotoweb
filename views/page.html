@@ -1,0 +1,63 @@
+<% include  header.html %>
+<% var admin = (data.username != null) %>
+
+        <section class="works bgGrey margTop ofsBottom tCenter" <% if(admin){%> style="background-color: #93dcfd"<%}%>>
+            <div class="container">
+                <div class="sixteen columns tCenter bigTitle">
+                    <h2 id="type" class="text-uppercase"><%- data.cls %></h2>
+                    <% if(!admin){ %>
+                        <p><% data.type.des %></p>
+                    <%}%>
+                    <% if(admin){ %>
+                        <div class="input-group">
+                            <input type="text" class="form-control" value="<%- class.description %>" id="typedes">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="modTypeDes()">Edit</button>
+                            </span>
+                        </div><!-- /input-group -->
+                    <%}%>
+                </div>
+            </div>
+            <div class="container">
+                <div class="works-holder clearfix">
+                    <div class="row container">
+                        <%
+                            var f = data.files;
+                            for(var i = 0; i < f.length; i++){
+                            var path = '"/pic/' + data.cls + '/' + f[i] + '"';
+                        %>
+                            <div class="four columns work">
+                                <div class="work-img">
+                                    <a href=<%- path %> class="venobox vbox-item">
+                                        <img alt="" class="" src=<%- path %> >
+                                    </a>
+                                </div>
+                                <div class="work-info">
+                                    <div class="info-inner">
+                                        <h3><span><%=f[i]%></span></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+<% include  footer.html %>
+
+<script>
+    function modTypeDes() {
+//        console.log($('#typedes').val());
+        $.post('/t/mod/' + $('#type').text(),{
+            des: $('#typedes').val()
+        }).then((res) => {
+            if(res === 'ok')
+                alert('ok');
+            else
+                alert('error');
+        })
+    }
+</script>
