@@ -12,7 +12,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '2333');
+var port = normalizePort('8888');
 // app.set('port', port);
 
 /**
@@ -45,7 +45,6 @@ function normalizePort(val) {
     // port number
     return port;
   }
-
   return false;
 }
 
@@ -57,7 +56,6 @@ function onError(error) {
   if (error.syscall !== 'listen') {
     throw error;
   }
-
   var bind = typeof port === 'string'
     ? 'Pipe ' + port
     : 'Port ' + port;

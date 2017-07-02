@@ -1,0 +1,34 @@
+
+        <section class="works bgGrey margTop ofsBottom tCenter">
+            <div class="container">
+                <div class="sixteen columns tCenter bigTitle">
+                    <h2><%- data.cls.toUpperCase() %></h2>
+                </div>
+            </div>
+            <div class="container">
+                <div class="works-holder clearfix">
+                    <div class="row container">
+                        <%
+                            var f = data.files;
+                            for(var i = 0; i < f.length; i++){
+                            var path = '"pic/' + data.cls + '/' + f[i] + '"';
+                        %>
+                            <div class="four columns work">
+                                <div class="work-img">
+                                    <a href=<%- path %> class="venobox vbox-item">
+                                        <img alt="" class="" src=<%- path %> >
+                                    </a>
+                                </div>
+                                <div class="work-info">
+                                    <div class="info-inner">
+                                        <h3><span><%=f[i]%></span></h3>
+                                    </div>
+                                </div>
+                            </div>
+                        <%
+                            }
+                        %>
+                    </div>
+                </div>
+            </div>
+        </section>

@@ -1,34 +1,46 @@
 'use strict';
-var router = require('koa-router')();
-const account = require('../tools/account');
-
-
-router.get('/', async function (ctx, next) {
-  if (ctx.session.isNew) {
-    await ctx.render('signin');
-  }
-  else {
-    await ctx.redirect('index');
-  }
-});
-
-router.post('/', account.login)
-
-
-router.use(async (ctx, next) => {
-  if (ctx.session.isNew) {
-    // ctx.throw('you have to login first!');
-    await ctx.redirect('/');
-  }
-  else {
-    await next();
-  }
-});
+let router = require('koa-router')();
+const fs = require('fs');
 
 router.get('/index', async function (ctx, next) {
-  await ctx.render('index');
+    await ctx.redirect('/');
 });
-
-router.get('/logout', account.logout);
+router.get('/', async function (ctx, next) {
+    await ctx.render('index',{
+    });
+});
+router.get('/about', async function (ctx, next) {
+    await ctx.render('about');
+});
+router.get('/concept', async function (ctx, next) {
+    let files = fs.readdirSync('public/pic/concept');
+    let data = {
+        files,
+        cls: 'concept'
+    };
+    await ctx.render('cls',{
+        data
+    });
+});
+router.get('/individual', async function (ctx, next) {
+    let files = fs.readdirSync('public/pic/individual');
+    let data = {
+        files,
+        cls: 'individual'
+    };
+    await ctx.render('cls',{
+        data
+    });
+});
+router.get('/portrait', async function (ctx, next) {
+    let files = fs.readdirSync('public/pic/portrait');
+    let data = {
+        files,
+        cls: 'portrait'
+    };
+    await ctx.render('cls',{
+        data
+    });
+});
 
 module.exports = router;
