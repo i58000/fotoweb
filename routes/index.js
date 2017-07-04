@@ -27,8 +27,9 @@ router.get('/admin', async function (ctx, next) {
     }
     else{
         let allType = await type.getAll();
-        let allFoto = await foto.get(allType[0].name);
-        // console.log(allType[0]);
+        let allFoto;
+        if(allType.length === 0) allFoto = [];
+        else allFoto = await foto.get(allType[0].name);
         let data = {
             allType: allType,
             allFoto: allFoto,
