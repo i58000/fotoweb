@@ -1,0 +1,380 @@
+<%
+var allType = data.allType;
+var allFoto = data.allFoto;
+var curType = data.curType;
+%>
+
+<% include  header.html %>
+
+<section class="works ofsTMedium margTop ofsBottom tCenter" style="background-color: #f8f8f8">
+    <div class="container">
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <div class="ofsBMedium">
+                    <h1>Hello CJB</h1>
+                    <p class="text-center"><em style="margin-right: 10px">Manage you foto here</em><a href="/logout">溜了溜了</a></p>
+                </div>
+
+                <ul id="typelist" class="nav nav-tabs">
+                    <li class="pull-right">
+<% for(var i in allType){ %>
+                    <li <% if(allType[i].name === curType.name){ %> class="active" <% } %>>
+                        <a href="/admin/<%- allType[i].name %>" class="text-muted"><%- allType[i].name.toUpperCase() %></a>
+                    </li>
+<% } %>
+                    <li class="pull-right" href="#modal-addtype" data-toggle="modal" style="cursor: pointer"><a>添加分类</a></li>
+                </ul>
+                <!--container-->
+                <div class="bgWhite" style="padding: 20px 15px; border-bottom: 1px solid gainsboro;border-left: 1px solid gainsboro;border-right: 1px solid gainsboro">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        <span>分类：</span> <span id="curtypename"><%= curType.name %></span>
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-12">
+                                        <div class="input-group" style="margin-top: 10px; margin-bottom: 10px">
+                                            <input type="text" class="form-control" id="typename" value="<%= curType.name %>">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" onclick="editTypeName()">Edit</button>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div><!-- /.col-lg-6 -->
+
+                                    <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="typedes" placeholder="该分类无描述" value="<%= curType.des %>" >
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-default" type="button" onclick="editTypeDes()">Edit</button>
+                                            </span>
+                                        </div><!-- /input-group -->
+                                    </div><!-- /.col-lg-6 -->
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        上传图片
+                                    </h3>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px">
+                                        <form role="form" enctype="multipart/form-data" method="POST" action="/foto/add/<%- curType.name %>" onsubmit="addFoto()">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" placeholder="描述这张图片" name="newfotodes" id="newfotodes"/>
+                                                <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="submit" value="OK">Upload</button>
+                                                </span>
+                                            </div>
+                                            <input style="padding-top: 20px; margin-bottom: 11px" type="file" id="upfile" name="upfile" style="margin-top: 10px"/>
+
+                                        </form>
+                                        <!--<iframe name='hidden_frame' id="hidden_frame" style="height: 36px;"></iframe>-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">
+                                        图片列表
+                                    </h3>
+                                </div>
+                                <div class="panel-body" style="padding-bottom: 0px">
+                                    <div class="col-lg-12">
+                                        <table class="table">
+                                            <thead>
+                                            <tr >
+                                                <th width="20%" class="text-center">
+                                                    文件名
+                                                </th>
+                                                <th width="70%" class="text-center">
+                                                    描述
+                                                </th>
+                                                <th width="10%" class="text-center">
+                                                    操作
+                                                </th>
+                                            </tr>
+                                            </thead>
+                                            <tbody id="fotolist">
+                                            <% for(var i in allFoto){ %>
+                                            <tr>
+                                                <td>
+                                                    <%- allFoto[i].name %>
+                                                </td>
+                                                <td>
+                                                    <%- allFoto[i].des %>
+                                                </td>
+                                                <td>
+                                                    <i class="glyphicon glyphicon-pencil" style="cursor: pointer" onclick="showModFoto('<%- allFoto[i].name %>','<%- allFoto[i].des %>')"></i>
+                                                    <i class="glyphicon glyphicon-trash" style="cursor: pointer" onclick="delFoto('<%- allFoto[i].name %>')"></i>
+                                                </td>
+                                            </tr>
+                                            <% } %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row clearfix">
+                        <div class="col-lg-12">
+                            <button class="btn btn-danger btn-block" onclick="delType()">删除这个分类 ( 警告:无备份措施, 不可恢复的操作 )</button>
+                        </div>
+                    </div>
+
+
+                    <div class="modal fade" id="modal-addtype" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title" id="myModalLabel">
+                                        添加分类
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="padding-bottom: 0px">
+                                        <div class="row clearfix">
+                                            <div class="col-md-12">
+                                                <form role="form">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="newtypename" placeholder="输入新分类的名字" />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="newtypedes" placeholder="输入新分类的描述"/>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <button type="button" class="btn btn-primary" onclick="addType()">保存</button>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="modal fade" id="modal-modFoto" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h4 class="modal-title">
+                                        修改照片信息
+                                    </h4>
+                                </div>
+                                <div class="modal-body" style="padding-bottom: 0px">
+                                    <div class="row clearfix">
+                                        <div class="col-md-12">
+
+                                            <span id="fotooldname" style="display: none;"></span>
+
+                                            <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="fotonewname" placeholder="输入照片的新名字" >
+                                                    <span class="input-group-btn">
+                                                    <button class="btn btn-default" type="button" onclick="editFotoName()">Edit</button>
+                                                </span>
+                                                </div><!-- /input-group -->
+                                            </div><!-- /.col-lg-6 -->
+
+                                            <div class="col-lg-12" style="margin-top: 10px; margin-bottom: 10px">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" id="fotonewdes" placeholder="输入照片的新描述" >
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-default" type="button" onclick="editFotoDes()">Edit</button>
+                                                    </span>
+                                                </div><!-- /input-group -->
+                                            </div><!-- /.col-lg-6 -->
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                    <!--<button type="button" class="btn btn-primary" onclick="modFoto()">保存</button>-->
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<% include  footer.html %>
+
+<script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function () {
+        if(window.location.search === '?ok'){
+            alert('OK');
+            window.location.search = '';
+        }
+        else if(window.location.search === '?error'){
+            alert('ERROR');
+            window.location.search = '';
+        }
+
+
+    });
+
+    function editTypeName() {
+        if($('#typename').val() === ''){
+            alert('empty name!');
+            return;
+        }
+        $.ajax({
+            url: '/t/editName/'+ $('#curtypename').text(),
+            method: 'POST',
+            data: {
+                name: $('#typename').val()
+            },
+            success: (res)=>{
+                window.location.href = '/admin/' + $('#typename').val();
+                alert(res);
+            }
+        });
+    }
+
+    function editTypeDes() {
+        $.ajax({
+            url: '/t/editDes/'+ $('#curtypename').text(),
+            method: 'POST',
+            data: {
+                des: $('#typedes').val()
+            },
+            success: (res)=>{
+                alert(res);
+            }
+        });
+    }
+
+    function addType() {
+        let newtypename = $('#newtypename').val();
+        let newtypedes = $('#newtypedes').val();
+        if(newtypename === ''){
+            alert('empty name!');
+            return;
+        }
+        $.ajax({
+            url: '/t/add/',
+            method: 'POST',
+            data: {
+                name: newtypename,
+                des: newtypedes
+            },
+            success: (res)=>{
+                window.location.href = '/admin/'+ newtypename;
+                alert(res);
+            }
+        });
+    }
+
+    function delType() {
+        console.log('del');
+        if(confirm('确定删除?')){
+            $.ajax({
+                url: '/t/del/',
+                data:{
+                    type: $('#curtypename').text()
+                },
+                method: 'POST',
+                success: (res)=>{
+                    window.location.href = '/admin';
+                    alert(res);
+                }
+            });
+        }
+    }
+    function delFoto(name) {
+        let type = $('#curtypename').text()
+        if(confirm('确定删除?')){
+            $.ajax({
+                url: '/foto/del',
+                data: {
+                    type: type,
+                    name: name
+                },
+                method: 'POST',
+                success: (res)=>{
+                    window.location.href = '/admin/' + type;
+                    alert(res);
+                }
+            });
+        }
+    }
+
+    function showModFoto(name,des) {
+        $('#fotooldname').html(name);
+        $('#fotonewname').val(name);
+        $('#fotonewdes').val(des);
+        $('#modal-modFoto').modal('show');
+    }
+
+    function editFotoName(){
+        let oldname = $('#fotooldname').text();
+        let type = $('#curtypename').text();
+        let fotonewname = $('#fotonewname').val();
+        if(fotonewname === '') {
+            alert('empty name');
+            return;
+        }
+        $.ajax({
+            url: '/foto/editName',
+            method: 'POST',
+            data: {
+                type: type,
+                name: oldname,
+                fotonewname: fotonewname,
+            },
+            success: (res)=>{
+                alert(res);
+                window.location.reload();
+            }
+        })
+    }
+    function editFotoDes(){
+        let oldname = $('#fotooldname').text();
+        let type = $('#curtypename').text();
+        let fotonewdes = $('#fotonewdes').val();
+        console.log(oldname,type,fotonewdes)
+        $.ajax({
+            url: '/foto/editDes',
+            method: 'POST',
+            data: {
+                type: type,
+                name: oldname,
+                fotonewdes: fotonewdes
+            },
+            success: (res)=>{
+                alert(res);
+                window.location.reload();
+            }
+        })
+    }
+
+
+</script>
+
+

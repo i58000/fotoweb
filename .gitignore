@@ -3,7 +3,7 @@
 .vscode
 
 # Database files
-tools/data
+database/data
 
 # Logs
 logs

@@ -7,14 +7,7 @@ const bodyparser = require('koa-bodyparser')();
 const logger = require('koa-logger');
 const ejs = require('koa-ejs');
 const path = require('path');
-
-const index = require('./routes/index');
-
-// api
-// const account = require('./routes/account');
-// const course = require('./routes/course');
-// const discussion = require('./routes/discussion');
-// const cls = require('./routes/class');
+const session = require('koa-session')
 
 const cors = require('koa-cors');
 
@@ -28,14 +21,14 @@ app.use(logger());
 app.use(require('koa-static')(__dirname + '/public'));
 
 // session
-// app.keys = ['come secret hurr'];
-// app.use(require('koa-session')({
-//   key: 'cookie key',
-//   maxAge: 86400000,
-//   overwrite: true,
-//   httpOnly: true,
-//   signed: true,
-// }, app));
+app.keys = ['come secret hurr'];
+app.use(session({
+  key: 'cookie key',
+  maxAge: 86400000,
+  overwrite: true,
+  httpOnly: true,
+  signed: true,
+}, app));
 
 // cors, not necessary
 app.use(cors());
@@ -70,6 +63,7 @@ app.use(async (ctx, next) => {
 });
 
 // routes
+const index = require('./routes/index');
 app.use(index.routes(), index.allowedMethods());
 
 app.use(async (ctx, next) => {
@@ -84,9 +78,13 @@ app.use(async (ctx, next) => {
 });
 
 // apis
+// const account = require('./routes/account');
+// const course = require('./routes/course');
+const foto = require('./routes/foto');
+const type = require('./routes/type');
 // app.use(account.routes(), account.allowedMethods());
 // app.use(course.routes(), course.allowedMethods());
-// app.use(discussion.routes(), discussion.allowedMethods());
-// app.use(cls.routes(), cls.allowedMethods());
+app.use(foto.routes(), foto.allowedMethods());
+app.use(type.routes(), type.allowedMethods());
 
 module.exports = app;

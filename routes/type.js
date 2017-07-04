@@ -3,13 +3,14 @@
  */
 'use strict';
 const router = require('koa-router')();
-const page = require('../db/page');
-router.prefix('/page');
+const type = require('../db/type');
+router.prefix('/t');
 
-router.get('/:class', page.get)
-    .post('/modDes/:class', page.modDes)
-    .put('/addFoto/:class', page.addFoto)
-    .del('/delFoto/:class/:name', page.delFoto)
-    .post('/modFotoDes/:class/:name', page.modFotoDes);
+router.get('/:type', type.getFromUrl)
+    .get('/getAll/',type.getAll)
+    .post('/editDes/:type', type.editDes)
+    .post('/editName/:type', type.editName)
+    .post('/add', type.add)
+    .post('/del', type.del);
 
 module.exports = router;

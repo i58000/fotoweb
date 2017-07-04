@@ -506,20 +506,20 @@ nav ul.menu ul ul {
 
 
 
-input[type="text"],  textarea{
-    background:#f1f1f1;
-    border:1px solid #f1f1f1;
-    color: #999999;
-    font-family: 'montserratregular';
-    font-size: 13px;
-    margin: 0 0 15px;
-    outline: 0 none;
-    overflow: hidden;
-    padding: 13px 20px;
-    resize: none;
-    width: 100%;
-    letter-spacing:1px;
-}
+/*input[type="text"],  textarea{*/
+    /*background:#f1f1f1;*/
+    /*border:1px solid #f1f1f1;*/
+    /*color: #999999;*/
+    /*font-family: 'montserratregular';*/
+    /*font-size: 13px;*/
+    /*margin: 0 0 15px;*/
+    /*outline: 0 none;*/
+    /*overflow: hidden;*/
+    /*padding: 13px 20px;*/
+    /*resize: none;*/
+    /*width: 100%;*/
+    /*letter-spacing:1px;*/
+/*}*/
 
 
 textarea {
