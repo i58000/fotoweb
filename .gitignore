@@ -4,6 +4,7 @@
 
 # Database files
 database/data
+public/pic
 
 # Logs
 logs
