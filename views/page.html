@@ -4,8 +4,17 @@
 %>
 
 <% include  header.html %>
+<script>
+    window.onload=function(){
+        $('#loading').hide();
+        $('#content').show();
+    }
 
-        <section class="works bgGrey margTop ofsBottom tCenter">
+</script>
+        <div id="loading" class="works margTop ofsBottom tCenter">
+            <img style="margin-top: 10%; margin-bottom: 10%" src="/img/loading.gif" alt="">
+        </div>
+        <section id="content" style="display: none" class="works bgGrey margTop ofsBottom tCenter">
             <div class="container">
                 <div class="sixteen columns tCenter bigTitle">
                     <h2 id="type" class="text-uppercase"><%= data.type.name %></h2>
@@ -51,3 +60,5 @@
         </section>
 
 <% include  footer.html %>
+
+
