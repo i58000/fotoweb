@@ -13,5 +13,6 @@ router.prefix('/foto');
 router.post('/add/:type', upload.single('upfile'), foto.add)
     .post('/del', foto.del)
     .post('/editName', foto.editName)
-    .post('/editDes', foto.editDes);
+    .post('/editDes', foto.editDes)
+    .get('/:type/:line', foto.getLine);
 module.exports = router;

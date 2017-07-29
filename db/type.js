@@ -7,8 +7,22 @@ const foto = require('../db/foto');
 const fm = require('./fileManager');
 
 class TypeController {
-    static async getAll() {
-        return await type.find();
+    static async getTop() {
+        let top = await type.find({
+            'isTop': true
+        });
+        for(let i=0; i < top.length; i++){
+            for(let j=0; j < top[i].subType.length; j++){
+                top[i].subType[j] = await type.findById(top[i].subType[j]);
+            }
+        }
+        return top;
+    }
+    static async getSub() {
+        let sub = await type.find({
+            'isSub': true
+        });
+        return sub;
     }
     static async getFromUrl(ctx, next) {
         let tn = ctx.url.split('/')[2];  //concept
@@ -17,7 +31,7 @@ class TypeController {
         });
         let fotos = await foto.get(tn);
         let data = {
-            allType: await type.find(),
+            topType: await TypeController.getTop(),
             fotos,
             type: t,
             username: ctx.session.username
@@ -56,17 +70,41 @@ class TypeController {
     static async add(ctx, next) {
         let name = ctx.request.body.name;
         let des = ctx.request.body.des;
+        let father = ctx.request.body.father;
+
         if(name === 'tmp') return ctx.body = 'tmp is not allowed';
         let ores = await type.findOne({
             'name': name
         });
         if(ores) return ctx.body = 'NAME EXIST';
+
+        let isSub = true;
+        if(father === "添加一个父类") isSub = false; //标记
+        else fm.addType(name); //如果不是添加父类，则新建文件夹
+
         let newType = new type({
             name: name,
-            des: des
+            des: des,
+            isSub: isSub
         });
-        newType.save();
-        fm.addType(name);
+
+        await newType.save();
+
+
+        if(father !== "无父类" && father !== "添加一个父类" ){
+            let s = await type.findOne({
+                'name': name
+            });
+            s.isTop = false;
+            s.father = father;
+            let f = await type.findOne({
+                'name': father
+            });
+            f.subType.push(s._id);
+            s.save();
+            f.save();
+        }
+
         return ctx.body = "OK";
     }
     static async del(ctx, next) {
@@ -78,6 +116,16 @@ class TypeController {
         await type.findByIdAndRemove(res._id);
         await foto.delType(name);
         fm.delType(name);
+
+        if(res.father !== null){
+            let f = await type.findOne({
+                name: res.father
+            });
+            if(f.subType.length === 1) f.remove();
+            else f.subType.pull(res._id);
+            await f.save();
+        }
+
         ctx.body = "OK";
     }
 }

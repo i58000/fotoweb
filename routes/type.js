@@ -7,7 +7,7 @@ const type = require('../db/type');
 router.prefix('/t');
 
 router.get('/:type', type.getFromUrl)
-    .get('/getAll/',type.getAll)
+    .get('/getTop/',type.getTop)
     .post('/editDes/:type', type.editDes)
     .post('/editName/:type', type.editName)
     .post('/add', type.add)

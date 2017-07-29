@@ -1,20 +1,20 @@
 <%
-    var allType = data.allType;
+    var topType = data.topType;
     var f = data.fotos;
 %>
 
 <% include  header.html %>
 <script>
-    window.onload=function(){
-        $('#loading').hide();
-        $('#content').show();
-    }
+//    window.onload=function(){
+//        $('#loading').hide();
+//        $('#content').show();
+//    }
 
 </script>
-        <div id="loading" class="works margTop ofsBottom tCenter">
-            <img style="margin-top: 10%; margin-bottom: 10%" src="/img/loading.gif" alt="">
-        </div>
-        <section id="content" style="display: none" class="works bgGrey margTop ofsBottom tCenter">
+        <!--<div id="loading" class="works margTop ofsBottom tCenter">-->
+            <!--<img style="margin-top: 10%; margin-bottom: 10%" src="/img/loading.gif" alt="">-->
+        <!--</div>-->
+        <section id="content" class="works bgGrey margTop ofsBottom tCenter">
             <div class="container">
                 <div class="sixteen columns tCenter bigTitle">
                     <h2 id="type" class="text-uppercase"><%= data.type.name %></h2>
@@ -23,41 +23,44 @@
             </div>
             <div class="container">
                 <div class="works-holder clearfix">
-                    <div class="row">
-                        <div class="row"></div>
-<%
-    for(var i = 0; i < f.length; i++){
-        var path = '"/pic/' + f[i].type + '/' + f[i].name + '"';
-        var name = f[i].name.substring(0, f[i].name.lastIndexOf('.'));
-        var des = f[i].des
- %>
-                            <div>
-                                <div class="col-md-3">
-                                    <div class="work-img">
-                                        <a href=<%- path %> class="venobox vbox-item">
-                                            <img alt="" class="" src=<%- path %> >
-                                        </a>
-                                    </div>
-                                    <div class="" style="margin-bottom: 30px">
-                                        <div class="info-inner">
-                                            <h3><%=name%></h3>
-                                            <p><span><%- des%></span></p>
-                                        </div>
+                    <div class="row" id="lines">
+                        <!--<div class="row"></div>-->
+                    <% for(var i in f){ %>
+
+                        <% if(i%4===0){ %>
+                            <div class="row">
+                        <% } %>
+
+                            <div class="col-md-3">
+                                <div class="work-img">
+                                    <a href="/pic/<%= data.type.name %>/<%= f[i].name %>" class="venobox vbox-item">
+                                        <img alt="" class="" src="/pic/<%= data.type.name %>/<%= f[i].name %>" >
+                                    </a>
+                                </div>
+                                <div class="" style="margin-bottom: 30px">
+                                    <div class="info-inner">
+                                        <h3><%- f[i].name.substring(0, f[i].name.lastIndexOf('.')) %></h3>
+                                        <p><span><%- f[i].des %></span></p>
                                     </div>
                                 </div>
                             </div>
-<%
-        if(i%4 === 3){
-%>
-                    </div><div class="row">
-<%      }
-    }
-%>
+
+                        <% if(i%4==3){ %>
+                            </div>
+                        <% } %>
+
+                    <% } %>
+
                     </div>
 
                 </div>
             </div>
         </section>
+
+<p id="fotolength" style="display: none"><%- f.length %></p>
+
+<!--<script src="/js/jquery-1.11.3.min.js" type="text/javascript"></script>-->
+
 
 <% include  footer.html %>
 

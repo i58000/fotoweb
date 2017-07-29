@@ -27,8 +27,22 @@
                             <ul class="menu" id="navbar">
                                 <li class="nb"><a href="/">HOME</a></li>
                                 <li class="nb"style="margin-right: 20px"><a href="/about">About</a></li>
-                        <% for(var i in allType){ %>
-                                <li class="nb"><a href="/t/<%- allType[i].name %>"><%- allType[i].name %></a></li>
+
+                        <% for(var i in topType){ %>
+                                <% if(topType[i].subType.length != 0){ %>
+                                    <li class="nb">
+                                        <a href="javascript:void(0);"><%- topType[i].name %></a>
+                                        <ul class="dropDown" style="display: none;">
+                                            <% for(var j=0; j < topType[i].subType.length; j++){ %>
+                                            <li>
+                                                <a href="/t/<%- topType[i].subType[j].name %>"><%- topType[i].subType[j].name %></a>
+                                            </li>
+                                            <% } %>
+                                        </ul>
+                                    </li>
+                                <% } else {%>
+                                    <li class="nb"><a href="/t/<%- topType[i].name %>"> <%- topType[i].name %></a> </li>
+                                <% } %>
                         <% } %>
                             </ul>
                         </nav>

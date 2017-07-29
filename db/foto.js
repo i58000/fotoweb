@@ -4,11 +4,33 @@
 'use strict';
 const foto = require('./database')['foto'];
 const fm = require('./fileManager');
+
+// const sleep = require('sleep');
+
+
 class FotoController {
     static async get(type) {
         return await foto.find({
             'type': type
         });
+    }
+    static async getLine(ctx, next) {
+        let type = ctx.params.type;
+        let line = ctx.params.line;
+        console.log(type);
+        console.log(line);
+        let res = await foto.find({
+            'type': type
+        }).skip(4*line).limit(4);
+        for(let i in res){
+            res[i] = {
+                name: res[i].name,
+                des: res[i].des
+            }
+        }
+        // sleep.sleep(5);
+
+        return ctx.body = res;
     }
     static async delType(name) {
         console.log(name);

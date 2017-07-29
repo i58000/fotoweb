@@ -1,6 +1,7 @@
 <%
-<!--var allType = data.allType;-->
-var allType = data.allType;//[{name:'ttt',des:'ddd'}]
+var topType = data.topType;
+
+var subType = data.subType;
 var allFoto = data.allFoto;
 var curType = data.curType;
 var hasType = true;
@@ -22,10 +23,15 @@ if(curType === undefined){
                 </div>
 
                 <ul id="typelist" class="nav nav-tabs">
-                    <li class="pull-right">
-<% for(var i in allType){ %>
-                    <li <% if(allType[i].name === curType.name){ %> class="active" <% } %>>
-                        <a href="/admin/<%- allType[i].name %>" class="text-muted"><%- allType[i].name.toUpperCase() %></a>
+                    <!--<li class="pull-right">-->
+<% for(var i in subType){ %>
+                    <li <% if(subType[i].name === curType.name){ %> class="active" <% } %> >
+                        <a href="/admin/<%- subType[i].name %>" class="text-muted">
+                            <% if(subType[i].isTop === false){ %>
+                                <%- subType[i].father.toUpperCase() %> /
+                            <% } %>
+                            <%- subType[i].name.toUpperCase() %>
+                        </a>
                     </li>
 <% } %>
                     <li class="pull-right" href="#modal-addtype" data-toggle="modal" style="cursor: pointer"><a>添加分类</a></li>
@@ -163,6 +169,21 @@ if(curType === undefined){
                         <div class="col-md-12">
                             <form role="form">
                                 <div class="form-group">
+                                    <select class="form-control" id="father">
+                                        <option>无父类</option>
+                                        <option>添加一个父类</option>
+                                        <%
+                                            for(var i in topType){
+                                                if(topType[i].isSub === false){
+                                        %>
+                                        <option><%- topType[i].name %></option>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                    </select>
+                                </div>
+                                <div class="form-group">
                                     <input type="text" class="form-control" id="newtypename" placeholder="输入新分类的名字" />
                                 </div>
                                 <div class="form-group">
@@ -277,8 +298,10 @@ if(curType === undefined){
     }
 
     function addType() {
+        let father = $('#father option:selected').val();
         let newtypename = $('#newtypename').val();
         let newtypedes = $('#newtypedes').val();
+
         if(newtypename === ''){
             alert('empty name!');
             return;
@@ -287,6 +310,7 @@ if(curType === undefined){
             url: '/t/add/',
             method: 'POST',
             data: {
+                father: father,
                 name: newtypename,
                 des: newtypedes
             },

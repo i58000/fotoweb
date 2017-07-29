@@ -53,7 +53,44 @@
         s.parentNode.insertBefore(hm, s);
     })();
 </script>
+    <!--<script>-->
 
+        <!--$(document).ready(function () {-->
+
+            <!--let type = window.location.href.split('/').pop();-->
+
+            <!--for(let i=0; i <= $('#fotolength').text()/4; i++){-->
+                <!--$.ajax({-->
+                    <!--type: 'GET',-->
+                    <!--async: false,-->
+                    <!--url: '/foto/' + type + '/' + i-->
+                <!--}).done((res) => {-->
+                    <!--console.log(res);-->
+                    <!--let html = '<div class="row">';-->
+                    <!--for(let j in res){-->
+                        <!--html += '<div>\-->
+                    <!--<div class="col-md-3">\-->
+                        <!--<div class="work-img">\-->
+                        <!--<a href="/pic/'+ type + '/' + res[j].name + '" class="venobox vbox-item">\-->
+                        <!--<img alt="" class="" src="/pic/'+ type + '/' + res[j].name + '" >\-->
+                        <!--</a>\-->
+                        <!--</div>\-->
+                        <!--<div class="" style="margin-bottom: 30px">\-->
+                        <!--<div class="info-inner">\-->
+                        <!--<h3>'+ res[j].name.substring(0, res[j].name.lastIndexOf('.')) +'</h3>\-->
+                        <!--<p><span>'+ res[j].des +'</span></p>\-->
+                        <!--</div>\-->
+                        <!--</div>\-->
+                        <!--</div>\-->
+                        <!--</div>'-->
+                    <!--}-->
+                    <!--html+='</div>';-->
+                    <!--$('#lines').append(html)-->
+                <!--})-->
+            <!--}-->
+        <!--});-->
+
+    <!--</script>-->
 
 </body>
 </html>

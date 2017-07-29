@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const schema = require('./schema');
 mongoose.Promise = Promise;
 
-mongoose.connect('mongodb://localhost/fotoweb', {
+mongoose.connect('mongodb://localhost/fotoweb2', {
     config: { autoIndex: false }
 });
 
