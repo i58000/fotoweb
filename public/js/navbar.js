@@ -8,4 +8,19 @@ $(document).ready(function(){
         if(ll[i].children[0].pathname === path)
             ll[i].children[0].className = 'active'
     }
+    console.log("\n\
+ │\\＿╭╭╭╭╭＿／│ 　\n\
+ │           │\n\
+ │ ●       ● │\n\
+ │ ○ ╰┬┬┬╯ ○ │\n\
+ │    ╰—╯    │\n\
+ ╰—┬○——————┬○╯\n\
+  ╭│  PZSB │╮\n\
+  ╰┴———————┴╯\n\
+    \ ");
 });
+
+
+
+
+
